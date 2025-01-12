@@ -1,65 +1,82 @@
 import "./css/style.css";
+import { DropDownMenu, capitalizeFirstLetter } from "../js/application";
 
-const hideElement = function hideElement(elementToHide) {
-  elementToHide.classList.add("hidden");
-};
+class ScreenController {
+  #dropDownMenu;
 
-const showElement = function showElement(elementToShow) {
-  elementToShow.classList.remove("hidden");
-};
+  #controllerButtonName;
 
-const menuButtonClickHandler = function menuButtonClickHandler(event) {
-  const dropDownContent = event.target.nextElementSibling;
-  const clicked = (event.target.dataset.clicked !== "false");
+  #menuItems;
 
-  if (clicked) {
-    hideElement(dropDownContent);
-  } else {
-    showElement(dropDownContent);
+  constructor(controllerButtonName, ...menuItems) {
+    this.#controllerButtonName = controllerButtonName;
+    this.#menuItems = menuItems;
+    this.#dropDownMenu = new DropDownMenu(
+      this.#controllerButtonName,
+      this.#menuItems,
+    );
   }
-  // eslint-disable-next-line no-param-reassign
-  event.target.dataset.clicked = !clicked;
-};
 
-const capitalizeFirstLetter = function capitalizeFirstLetter(text) {
-  const [firstWord, remainingWord] = [text.at(0), text.substring(1)];
-  return `${firstWord.toUpperCase()}${remainingWord}`;
-};
+  #hideElement(elementToHide) {
+    elementToHide.classList.add("hidden");
+    return this;
+  }
 
-const createDropDownMenuItems = function getCreatedDropDownMenuItems(
-  menuItems,
-  parentElement,
-) {
-  menuItems.forEach((menuItem) => {
-    const menuItemElement = document.createElement("a");
-    menuItemElement.classList.add("drop-down-menu-item");
-    menuItemElement.textContent = capitalizeFirstLetter(menuItem);
-    parentElement.appendChild(menuItemElement);
-  });
-};
+  #showElement(elementToShow) {
+    elementToShow.classList.remove("hidden");
+    return this;
+  }
 
-const createDropDownMenu = function getCreatedDropDownMenu(
-  controllerButtonName,
-  ...menuItems
-) {
-  const dropDownMenu = document.createElement("div");
-  dropDownMenu.classList.add("drop-down-menu");
+  #menuButtonClickHandler(event) {
+    const dropDownContent = event.target.nextElementSibling;
+    const clicked = event.target.dataset.clicked === "true";
 
-  const dropDownControllerButton = document.createElement("button");
-  dropDownControllerButton.type = "button";
-  dropDownControllerButton.classList.add("drop-down-controller-button");
-  dropDownControllerButton.textContent = controllerButtonName;
-  dropDownControllerButton.dataset.clicked = false;
-  dropDownControllerButton.addEventListener("click", menuButtonClickHandler);
+    if (clicked) {
+      this.#hideElement(dropDownContent);
+    } else {
+      this.#showElement(dropDownContent);
+    }
+    // eslint-disable-next-line no-param-reassign
+    event.target.dataset.clicked = !clicked;
+  }
 
-  const dropDownContent = document.createElement("div");
-  dropDownContent.classList.add("drop-down-content");
-  createDropDownMenuItems(menuItems, dropDownContent);
+  #createDropDownMenuItems(parentElement) {
+    this.#menuItems.forEach((menuItem) => {
+      const menuItemElement = document.createElement("a");
+      menuItemElement.classList.add("drop-down-menu-item");
+      menuItemElement.textContent = capitalizeFirstLetter(menuItem);
+      parentElement.appendChild(menuItemElement);
+    });
+    return this;
+  }
 
-  dropDownMenu.appendChild(dropDownControllerButton);
-  dropDownMenu.appendChild(dropDownContent);
-  return dropDownMenu;
-};
+  createDropDownMenu() {
+    const dropDownMenuElement = document.createElement("div");
+    dropDownMenuElement.classList.add("drop-down-menu");
 
-const menu = createDropDownMenu("doSomething", "add", "delete", "edit");
-document.documentElement.lastElementChild.appendChild(menu);
+    const dropDownControllerButtonElement = document.createElement("button");
+    dropDownControllerButtonElement.type = "button";
+    dropDownControllerButtonElement.classList.add(
+      "drop-down-controller-button",
+    );
+    dropDownControllerButtonElement.textContent = this.#controllerButtonName;
+    dropDownControllerButtonElement.dataset.clicked = false;
+    dropDownControllerButtonElement.addEventListener(
+      "click",
+      (event) => {
+        this.#menuButtonClickHandler(event);
+      },
+    );
+
+    const dropDownContentElement = document.createElement("div");
+    dropDownContentElement.classList.add("drop-down-content", "hidden");
+    this.#createDropDownMenuItems(dropDownContentElement);
+
+    dropDownMenuElement.appendChild(dropDownControllerButtonElement);
+    dropDownMenuElement.appendChild(dropDownContentElement);
+    return dropDownMenuElement;
+  }
+}
+
+const dropDownMenuElement = new ScreenController("hi", "jkfd", "lli", "lol").createDropDownMenu();
+document.documentElement.lastElementChild.appendChild(dropDownMenuElement);

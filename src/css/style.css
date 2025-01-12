@@ -1,0 +1,13 @@
+.drop-down-menu {
+  position: relative;
+}
+
+.drop-down-content {
+  position: absolute;
+  display: grid;
+  border: 1px solid black;
+}
+
+.drop-down-content.hidden {
+  display: none;
+}

@@ -1,20 +1,17 @@
 import "./css/style.css";
 import { DropDownMenu, capitalizeFirstLetter } from "../js/application";
 
-class ScreenController {
+class DropDownMenuScreenController {
   #dropDownMenu;
 
   #controllerButtonName;
 
   #menuItems;
 
-  constructor(controllerButtonName, ...menuItems) {
-    this.#controllerButtonName = controllerButtonName;
-    this.#menuItems = menuItems;
-    this.#dropDownMenu = new DropDownMenu(
-      this.#controllerButtonName,
-      this.#menuItems,
-    );
+  constructor(dropDownMenuObject = {}) {
+    this.#dropDownMenu = dropDownMenuObject;
+    this.#controllerButtonName = this.#dropDownMenu.getControllerButtonName();
+    this.#menuItems = this.#dropDownMenu.getMenuItems();
   }
 
   #hideElement(elementToHide) {
@@ -41,10 +38,11 @@ class ScreenController {
   }
 
   #createDropDownMenuItems(parentElement) {
-    this.#menuItems.forEach((menuItem) => {
+    this.#menuItems.forEach((menuItemLink, menuItemName) => {
       const menuItemElement = document.createElement("a");
       menuItemElement.classList.add("drop-down-menu-item");
-      menuItemElement.textContent = capitalizeFirstLetter(menuItem);
+      menuItemElement.textContent = capitalizeFirstLetter(menuItemName);
+      menuItemElement.href = menuItemLink;
       parentElement.appendChild(menuItemElement);
     });
     return this;
@@ -61,12 +59,9 @@ class ScreenController {
     );
     dropDownControllerButtonElement.textContent = this.#controllerButtonName;
     dropDownControllerButtonElement.dataset.clicked = false;
-    dropDownControllerButtonElement.addEventListener(
-      "click",
-      (event) => {
-        this.#menuButtonClickHandler(event);
-      },
-    );
+    dropDownControllerButtonElement.addEventListener("click", (event) => {
+      this.#menuButtonClickHandler(event);
+    });
 
     const dropDownContentElement = document.createElement("div");
     dropDownContentElement.classList.add("drop-down-content", "hidden");
@@ -78,5 +73,4 @@ class ScreenController {
   }
 }
 
-const dropDownMenuElement = new ScreenController("hi", "jkfd", "lli", "lol").createDropDownMenu();
-document.documentElement.lastElementChild.appendChild(dropDownMenuElement);
+export { DropDownMenu, DropDownMenuScreenController };

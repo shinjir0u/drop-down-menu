@@ -4,8 +4,8 @@
 
 .drop-down-content {
   position: absolute;
+  top: 100%;
   display: grid;
-  border: 1px solid black;
 }
 
 .drop-down-content.hidden {

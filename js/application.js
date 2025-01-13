@@ -1,11 +1,24 @@
 class DropDownMenu {
   #controllerButtonName;
 
-  #menuItems;
+  #menuItems = new Map();
 
-  constructor(controllerButtonName = "...", menuItems = []) {
+  constructor(controllerButtonName = "...") {
     this.#controllerButtonName = controllerButtonName;
-    this.#menuItems = [...menuItems];
+  }
+
+  addMenuItem(name, link) {
+    if (name === "" || link === "") return;
+
+    this.#menuItems.set(name, link);
+  }
+
+  removeMenuItem(name) {
+    this.#menuItems.delete(name);
+  }
+
+  getMenuItem(name) {
+    return this.#menuItems.get(name);
   }
 
   getControllerButtonName() {
@@ -26,6 +39,8 @@ class DropDownMenu {
 }
 
 const capitalizeFirstLetter = function capitalizeFirstLetter(text) {
+  if (typeof(text) !== "string") return text;
+
   const [firstWord, remainingWord] = [text.at(0), text.substring(1)];
   return `${firstWord.toUpperCase()}${remainingWord}`;
 };

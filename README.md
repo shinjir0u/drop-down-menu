@@ -1,4 +1,3 @@
-# Web Template
+# Drop Down Menu Generator
 
-    This is to serve as a template for a web project that uses webpack for bundling.
-    Simply use this as a template during git repository creation to get a pre-setup project environment with webpack.
+This is to generate a drop down menu with minimal styles. On click, the menu will toggle between shown and hidden stages.

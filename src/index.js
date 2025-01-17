@@ -1,5 +1,5 @@
 import "./css/style.css";
-import { DropDownMenu, capitalizeFirstLetter } from "../js/application";
+import { DropDownMenu, capitalizeFirstLetter } from "./js/application.js";
 
 class DropDownMenuScreenController {
   #dropDownMenu;
@@ -73,4 +73,7 @@ class DropDownMenuScreenController {
   }
 }
 
-export { DropDownMenu, DropDownMenuScreenController };
+module.exports = {
+  DropDownMenu,
+  DropDownMenuScreenController,
+};

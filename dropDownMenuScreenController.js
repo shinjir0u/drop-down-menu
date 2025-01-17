@@ -1,5 +1,9 @@
-import "./css/style.css";
-import { DropDownMenu, capitalizeFirstLetter } from "../js/application";
+const capitalizeFirstLetter = function capitalizeFirstLetter(text) {
+  if (typeof(text) !== "string") return text;
+
+  const [firstWord, remainingWord] = [text.at(0), text.substring(1)];
+  return `${firstWord.toUpperCase()}${remainingWord}`;
+};
 
 class DropDownMenuScreenController {
   #dropDownMenu;
@@ -73,4 +77,4 @@ class DropDownMenuScreenController {
   }
 }
 
-export { DropDownMenu, DropDownMenuScreenController };
+export default DropDownMenuScreenController;

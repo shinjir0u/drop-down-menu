@@ -38,11 +38,4 @@ class DropDownMenu {
   }
 }
 
-const capitalizeFirstLetter = function capitalizeFirstLetter(text) {
-  if (typeof(text) !== "string") return text;
-
-  const [firstWord, remainingWord] = [text.at(0), text.substring(1)];
-  return `${firstWord.toUpperCase()}${remainingWord}`;
-};
-
-export { DropDownMenu, capitalizeFirstLetter };
+export default DropDownMenu;

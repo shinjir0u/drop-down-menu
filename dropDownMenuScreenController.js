@@ -1,5 +1,5 @@
 const capitalizeFirstLetter = function capitalizeFirstLetter(text) {
-  if (typeof(text) !== "string") return text;
+  if (typeof text !== "string") return text;
 
   const [firstWord, remainingWord] = [text.at(0), text.substring(1)];
   return `${firstWord.toUpperCase()}${remainingWord}`;
@@ -26,6 +26,29 @@ class DropDownMenuScreenController {
   #showElement(elementToShow) {
     elementToShow.classList.remove("hidden");
     return this;
+  }
+
+  #addDefaultStyles() {
+    const styles = `
+    .drop-down-menu {
+      position: relative;
+    }
+    
+    .drop-down-content {
+      position: absolute;
+      top: 100%;
+      display: grid;
+    }
+    
+    .drop-down-content.hidden {
+      display: none;
+    }
+    `;
+    
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = styles;
+        document.head.appendChild(styleSheet);
   }
 
   #menuButtonClickHandler(event) {
@@ -73,6 +96,8 @@ class DropDownMenuScreenController {
 
     dropDownMenuElement.appendChild(dropDownControllerButtonElement);
     dropDownMenuElement.appendChild(dropDownContentElement);
+
+    this.#addDefaultStyles();
     return dropDownMenuElement;
   }
 }

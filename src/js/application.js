@@ -17,7 +17,7 @@ class DropDownMenu {
     this.#menuItems.delete(name);
   }
 
-  getMenuItem(name) {
+  getMenuItemLink(name) {
     return this.#menuItems.get(name);
   }
 
